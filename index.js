@@ -25,24 +25,26 @@ app.get('/chatroom/:username', function(req, res){
 });
 
 io.on('connection', function(socket){
-    // socket.broadcast.emit('ready');
-    // socket.broadcast.emit('ready',users);
-    // socket.emit('ready',users);
-    socket.broadcast.emit('hi');
-    socket.on('parcharse', function(username) {
-        users.push(username);
-    });
-    socket.on('disconnect', function(){
-        console.log('user disconnected');
-    });
+  console.log("usuario id: %s",socket.id);
 
-    socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
-    });
+  io.emit('message',socket.id+' se ha conectado','System');
+  socket.on('message',function(msj){
+    io.emit('message',msj,socket.id);
+  });
 
-    socket.on('chat message', function(msg){
-      io.emit('chat message', msg);
-    });
+  socket.on('disconnect',function(e){
+    console.log("desconectado: %s",socket.id);
+  });
+    // socket.broadcast.emit('hi');
+    // socket.on('parcharse', function(username) {
+    //     users.push(username);
+    // });
+    // socket.on('disconnect', function(){
+    //     console.log('user disconnected');
+    // });
+    // socket.on('chat message', function(msg){
+    //   io.emit('chat message', msg);
+    // });
 });
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 

@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const users =  {};
+var nombrerooms=[];
 var username;
 app.use(express.static('public'));
 
@@ -29,6 +30,10 @@ io.on('connection', function(socket){
     io.sockets.in(channel).emit('message',msj,socket.name);
   });
 
+  socket.on('agrega room',function(nombreroom){
+    nombrerooms.push(nombreroom);
+    io.emit('render rooms',nombrerooms);
+  });
 
   socket.on('disconnect',function(e){
     socket.broadcast.emit('message',socket.name+' se ha desconectado','');

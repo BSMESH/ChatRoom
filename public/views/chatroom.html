@@ -31,26 +31,37 @@
       });
     });
     
+
     socket.on('message', function(msg,id){
       $("#message").append($('<li>').text(id+': '+msg));
     });
 
+    // socket.on('agrega room', function(nroom){
+    //   $("#groupname").append($('<li>').text(id+': '+msg));
+    // });
 
-
-    function newroom() {
-      var groupname = document.querySelector('.groupname').value;
-      if (groupname) {
+    socket.on('render rooms',function(arreglorooms){
+    
+      for (const valor of arreglorooms) {
+        if (valor) {
         select = document.getElementById('channel');
         var opt = document.createElement('option');
-        opt.value = groupname;
-        opt.innerHTML = groupname;
+        opt.value = valor;
+        opt.innerHTML = valor;
         select.appendChild(opt);
-
-        socket.on('change channel', function (channel) {
-          $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
-        })
+        // socket.emit('agrega room',groupname);
+        // socket.on('change channel', function (channel) {
+        //   $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
+        // })
       }
-    } 
+        
+      }
+  
+    });
+    function newroom() { 
+      var groupname = document.querySelector('.groupname').value;
+      socket.emit('agrega room',groupname);
+    }
   </script>
   
 <footer id="footer">

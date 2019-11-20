@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,34 +9,50 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <link rel="stylesheet" href="../css/chatroom.css">
-  
+
 </head>
+
 <body>
-  
+
 
   <script type="text/javascript">
-    var socket=io();
-    $(function(){
-      $("form").submit(function(){
-        var mensaje= $("#msj").val();
-        if(mensaje=='') return false;
-        socket.emit('message',mensaje);
+    var socket = io();
+    $(function () {
+      $("form").submit(function () {
+        var mensaje = $("#msj").val();
+        if (mensaje == '') return false;
+        socket.emit('message', mensaje);
         $("#msj").val('').focus();
         return false;
-    });
+      });
 
-    $("#channel").change(function(){
-      socket.emit('change channel',$("#channel").val());
-    });
+      $("#channel").change(function(){
+        socket.emit('change channel',$("#channel").val());
+      });
     });
     
     socket.on('message', function(msg,id){
       $("#message").append($('<li>').text(id+': '+msg));
     });
 
-    socket.on('change channel',function(channel){
-      $("#message").html('').append($('<li>').text('Conectado al canal'+channel));
-    })
+
+
+    function newroom() {
+      var groupname = document.querySelector('.groupname').value;
+      if (groupname) {
+        select = document.getElementById('channel');
+        var opt = document.createElement('option');
+        opt.value = groupname;
+        opt.innerHTML = groupname;
+        select.appendChild(opt);
+
+        socket.on('change channel', function (channel) {
+          $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
+        })
+      }
+
+
+    }
   </script>
   
 <footer id="footer">
@@ -60,9 +77,11 @@
         </form>
         
       </div>
-     
+    </div>
+
   </div>
 
-  
+
 </body>
+
 </html>

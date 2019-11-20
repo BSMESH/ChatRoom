@@ -6,9 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+   
 </head>
 <body>
-    <input id="username" type="text" placeholder="username">
-    <button id="joinBtn" onclick="window.location.href='/chatroom'">Connect</button>
+        <script>
+           
+           function gotochatroom(){
+            var username=document.querySelector('.username').value;
+            console.log(username+"<--username");
+            
+            window.location=`${window.location.href}chatroom/${username}`;
+           }
+        </script>
+
+    <input id="username" class="username" type="text" placeholder="username">
+    <button id="joinBtn" onclick="gotochatroom()">Connect</button>
 </body>
 </html>

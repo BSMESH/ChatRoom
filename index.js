@@ -3,8 +3,8 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-var users =  [];
-
+const users =  {};
+var username;
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
@@ -12,39 +12,25 @@ app.get('/', function(req, res){
       //res.send(JSON.stringify(e));
   });
 });
-app.get('/chatroom', function(req, res){
-  res.sendFile(`${__dirname}/public/views/chatroom.html`, (e) => {
-      //res.send(JSON.stringify(e));
-  });
-});
 app.get('/chatroom/:username', function(req, res){
-  const username = req.param('username');
+  username = req.params.username;
   res.sendFile(`${__dirname}/public/views/chatroom.html`, (e) => {
       //res.send(JSON.stringify(e));
   });
 });
 
 io.on('connection', function(socket){
-  console.log("usuario id: %s",socket.id);
 
-  socket.broadcast.emit('message',socket.id+' se ha conectado','System');
+  socket.name=username;
+ 
+  socket.broadcast.emit('message',socket.name+' se ha conectado','System');
   socket.on('message',function(msj){
-    io.emit('message',msj,socket.id);
+    io.emit('message',msj,socket.name);
   });
 
   socket.on('disconnect',function(e){
-    console.log("desconectado: %s",socket.id);
+    console.log("desconectado: %s",socket.name);
   });
-    // socket.broadcast.emit('hi');
-    // socket.on('parcharse', function(username) {
-    //     users.push(username);
-    // });
-    // socket.on('disconnect', function(){
-    //     console.log('user disconnected');
-    // });
-    // socket.on('chat message', function(msg){
-    //   io.emit('chat message', msg);
-    // });
 });
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 

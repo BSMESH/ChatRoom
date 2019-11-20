@@ -58,15 +58,16 @@
 <footer id="footer">
 
   <select name="channel" id="channel"> 
-    <option value="canal a">Chanel A</option>
-    <option value="canal b">Chanel B</option>
+    <option value="lobby">Lobby</option>
   </select>
   CHATROOM</footer>
  
       <div id="controls">
          
           <div id="group">
-              <button id="newg">+ Nuevo grupo </button>
+              <button id="newg" onclick="newroom()"> + Nuevo grupo 
+                <input id="groupname" class="groupname" type="text" placeholder="Escribir">
+              </button>
               <button id="newc">+ Nuevo chat </button>
             </div>
             

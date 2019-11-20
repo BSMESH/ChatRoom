@@ -86,7 +86,7 @@
     font-size: 12pt;
     }
     #messages li:nth-child(odd) { background: #eee; font-size: 20pt; }
-    #footer{
+    footer{
       height: 5vh;
       background-color: #009688;
       text-align: center;

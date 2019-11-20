@@ -23,14 +23,31 @@
         $("#msj").val('').focus();
         return false;
     });
+
+    $("#channel").change(function(){
+      socket.emit('change channel',$("#channel").val());
+    });
     });
     
     socket.on('message', function(msg,id){
       $("#message").append($('<li>').text(id+':'+msg));
     });
+
+    socket.on('change channel',function(channel){
+      $("#message").html('').append($('<li>').text('Conectado al canal'+channel));
+    })
   </script>
+<<<<<<< HEAD
   <div id="app">
       <div id="footer">CHATROOM</div>
+=======
+<footer id="footer">
+  <select name="channel" id="channel"> 
+    <option value="canal a">Chanel A</option>
+    <option value="canal b">Chanel B</option>
+  </select>
+  CHATROOM</footer>
+>>>>>>> ddfa17115a15f9c3a585bd01b726ba1965161586
  
       <div id="controls">
           <ul id="message"></ul>

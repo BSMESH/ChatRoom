@@ -20,12 +20,13 @@ app.get('/chatroom/:username', function(req, res){
 });
 
 io.on('connection', function(socket){
-
   socket.name=username;
- 
   socket.broadcast.emit('message',socket.name+' se ha conectado','');
+  var channel='channel-a';
+  socket.join(channel);
   socket.on('message',function(msj){
-    io.emit('message',msj,socket.name);
+    // io.emit('message',msj,socket.name);
+    io.sockets.in(channel).emit('message',msj,socket.name);
   });
 
 
@@ -33,6 +34,13 @@ io.on('connection', function(socket){
     socket.broadcast.emit('message',socket.name+' se ha desconectado','');
     console.log("desconectado: %s",socket.name);
   });
+
+  socket.on('change channel',function(newChannel){
+    socket.leave(channel);
+    socket.join(newChannel);
+    channel= newChannel;
+    socket.emit('change channel',newChannel);
+  })
 });
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 

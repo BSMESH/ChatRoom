@@ -30,14 +30,16 @@
     });
     
     socket.on('message', function(msg,id){
-      $("#message").append($('<li>').text(id+':'+msg));
+      $("#message").append($('<li>').text(id+': '+msg));
     });
 
     socket.on('change channel',function(channel){
       $("#message").html('').append($('<li>').text('Conectado al canal'+channel));
     })
   </script>
+  
 <footer id="footer">
+
   <select name="channel" id="channel"> 
     <option value="canal a">Chanel A</option>
     <option value="canal b">Chanel B</option>

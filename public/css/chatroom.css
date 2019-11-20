@@ -7,7 +7,7 @@
     }
     body {
     font: 13px Helvetica, Arial; 
-    background-color: white;
+    background-color: aqua;
     
         }
     form { 
@@ -82,11 +82,12 @@
     
     }
     #messages li { 
+        align-content: flex-start;
     padding: 5px 10px; 
     font-size: 12pt;
     }
-    #messages li:nth-child(odd) { background: #eee; font-size: 20pt; }
-    #footer{
+    #messages li:nth-child(odd) { background: #eee; width:50%; }
+    footer{
       height: 5vh;
       background-color: #009688;
       text-align: center;

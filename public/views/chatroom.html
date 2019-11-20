@@ -50,9 +50,7 @@
           $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
         })
       }
-
-
-    }
+    } 
   </script>
   
 <footer id="footer">
@@ -63,25 +61,48 @@
   CHATROOM</footer>
  
       <div id="controls">
-         
-          <div id="group">
-              <button id="newg" onclick="newroom()"> + Nuevo grupo 
-                <input id="groupname" class="groupname" type="text" placeholder="Escribir">
+          <form action="">
+              <ul id="message"></ul>
+              <input type="text" id="msj" placeholder="Escribir..">
+              <input type="submit" value="Enviar">
+          </form>
+          <div class="group">
+              <button onclick="Userlist()" class="dropbtn">+ Nuevo chat</button>
+              <div id="myDropdown" class="group-content">
+                <a id="usuarios" href="#channel">Usuario de la lista</a>
+              </div>
+              <button id="newc" onclick="newroom()" class="dropchat" onclick="drop()">+ Nuevo grupo 
+                  <input id="groupname" class="groupname" type="text" placeholder="Escribir">
               </button>
-              <button id="newc">+ Nuevo chat </button>
+                </div>
             </div>
-            
-        <form action="">
-            <ul id="message"></ul>
-            <input type="text" id="msj" placeholder="Escribir..">
-            <input type="submit" value="Enviar">
-        </form>
-        
+          
+      </div>
       </div>
     </div>
 
   </div>
 
+      </div>
+      <!-- Lista de chats -->
+      <script>
+      function Userlist() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+      </script>
+      
 
 </body>
 

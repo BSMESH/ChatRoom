@@ -15,6 +15,8 @@
     position: fixed; 
     bottom: 0; 
     width: 100%; 
+    
+
     }
     form input {
     border: 0; 
@@ -33,14 +35,18 @@
         height: 100vh;
       
     }
-    #group{
+    .group{
         margin-left: 100%;
         border-top: 0px;
         background-color: #DCF866;
         width: 56%;
         height: 100%;
+        position: relative;
+        display: inline-block;
     }
-    #newg, #newc{
+ 
+  
+    .dropbtn, #newc{
         width: 50%;
         background-color: #4CAF50;
         color: white;
@@ -50,6 +56,26 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: rgb(23, 105, 26);
+      }
+    .group-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      .group-content  a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      .group a:hover {background-color: #ddd;}
+      .show {display: block;}
     input[type=text]{
        width: 54%;
         padding: 12px 20px;
@@ -72,21 +98,23 @@
         background-color:#e5dde5;
         width: 65%;
         height: 100vh;
-    
+ 
     }
 
-    #messages { 
+    #message { 
     list-style-type: none; 
     margin: 0; 
     padding: 5px; 
+    overflow: hidden;
     
     }
-    #messages li { 
+    #message li { 
         align-content: flex-start;
     padding: 5px 10px; 
     font-size: 12pt;
+
     }
-    #messages li:nth-child(odd) { background: #eee; width:50%; }
+    #message li:nth-child(odd) { background: #eee; width:53%; }
     footer{
       height: 5vh;
       background-color: #009688;

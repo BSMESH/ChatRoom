@@ -52,14 +52,7 @@
         height: 100vh;
     
     }
-    #chats{
-       
-        height: 100vh;
-        background-color: aqua;
-        flex-flow: row;
-      align-content: flex-start;
-        margin-left: 50vw;
-    }
+
     #messages { 
     list-style-type: none; 
     margin: 0; 

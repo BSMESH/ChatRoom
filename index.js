@@ -22,7 +22,7 @@ app.get('/chatroom/:username', function(req, res){
 io.on('connection', function(socket){
   socket.name=username;
   socket.broadcast.emit('message',socket.name+' se ha conectado','');
-  var channel='channel-a';
+  var channel='Lobby';
   socket.join(channel);
   socket.on('message',function(msj){
     // io.emit('message',msj,socket.name);

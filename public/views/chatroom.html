@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,57 +9,75 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <link rel="stylesheet" href="../css/chatroom.css">
-  
+
 </head>
+
 <body>
-  
+
 
   <script type="text/javascript">
-    var socket=io();
-    $(function(){
-      $("form").submit(function(){
-        var mensaje= $("#msj").val();
-        if(mensaje=='') return false;
-        socket.emit('message',mensaje);
+    var socket = io();
+    $(function () {
+      $("form").submit(function () {
+        var mensaje = $("#msj").val();
+        if (mensaje == '') return false;
+        socket.emit('message', mensaje);
         $("#msj").val('').focus();
         return false;
+      });
+
+      $("#channel").change(function(){
+        socket.emit('change channel',$("#channel").val());
+      });
     });
 
-    $("#channel").change(function(){
-      socket.emit('change channel',$("#channel").val());
-    });
-    });
-    
-    socket.on('message', function(msg,id){
-      $("#message").append($('<li>').text(id+':'+msg));
+    socket.on('message', function (msg, id) {
+      $("#message").append($('<li>').text(id + ':' + msg));
     });
 
-    socket.on('change channel',function(channel){
-      $("#message").html('').append($('<li>').text('Conectado al canal'+channel));
-    })
+
+
+    function newroom() {
+      var groupname = document.querySelector('.groupname').value;
+      if (groupname) {
+        select = document.getElementById('channel');
+        var opt = document.createElement('option');
+        opt.value = groupname;
+        opt.innerHTML = groupname;
+        select.appendChild(opt);
+
+        socket.on('change channel', function (channel) {
+          $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
+        })
+      }
+
+
+    }
   </script>
   <div id="app">
-      <div id="footer">
-          <select name="channel" id="channel"> 
-              <option value="canal a">Chanel A</option>
-              <option value="canal b">Chanel B</option>
-            </select>
-        CHATROOM</div>
- 
-      <div id="controls">
-          <ul id="message"></ul>
-        <form action="">
-            <input type="text" id="msj" placeholder="Escribir..">
-            <input type="submit" value="Enviar">
-        </form>
-        <div id="group">
-          <button id="newg">+ Nuevo grupo </button>
-          <button id="newc">+ Nuevo chat </button>
-        </div>
+    <div id="footer">
+      <select name="channel" id="channel">
+        <option value="Lobby">Lobby</option>
+      </select>
+      CHATROOM</div>
+
+    <div id="controls">
+      <ul id="message"></ul>
+      <form action="">
+        <input type="text" id="msj" placeholder="Escribir..">
+        <input type="submit" value="Enviar">
+      </form>
+      <div id="group">
+        <button id="newg" onclick="newroom()">+ Nuevo grupo
+          <input id="groupname" class="groupname" type="text" placeholder="Name..">
+        </button>
+        <button id="newc">+ Nuevo chat </button>
       </div>
-     
+    </div>
+
   </div>
 
-  
+
 </body>
+
 </html>

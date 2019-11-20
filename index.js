@@ -27,7 +27,7 @@ app.get('/chatroom/:username', function(req, res){
 io.on('connection', function(socket){
   console.log("usuario id: %s",socket.id);
 
-  io.emit('message',socket.id+' se ha conectado','System');
+  socket.broadcast.emit('message',socket.id+' se ha conectado','System');
   socket.on('message',function(msj){
     io.emit('message',msj,socket.id);
   });

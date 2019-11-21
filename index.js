@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const users =  {};
+const users =  [];
 var nombrerooms=[];
 var username;
 app.use(express.static('public'));

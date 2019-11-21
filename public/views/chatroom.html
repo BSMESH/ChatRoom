@@ -17,6 +17,8 @@
 
   <script type="text/javascript">
     var socket = io();
+    var _rooms = [];
+
     $(function () {
       $("form").submit(function () {
         var mensaje = $("#msj").val();
@@ -26,68 +28,73 @@
         return false;
       });
 
-      $("#channel").change(function(){
-        socket.emit('change channel',$("#channel").val());
+      $("#channel").change(function () {
+        socket.emit('change channel', $("#channel").val());
       });
     });
-    
 
-    socket.on('message', function(msg,id){
-      $("#message").append($('<li>').text(id+': '+msg));
+
+    socket.on('message', function (msg, id) {
+      $("#message").append($('<li>').text(id + ': ' + msg));
     });
 
-    // socket.on('agrega room', function(nroom){
-    //   $("#groupname").append($('<li>').text(id+': '+msg));
-    // });
+    socket.on('render rooms',function(rooms){
+      let select = document.getElementById('channel');
+      // select.innerHTML = '';
+    //   $('#channel')
+    // .find('option')
+    // .remove()
+    // .end()
+    // .append('<option value="lobby">lobby</option>')
+    // // .val('whatever')
 
-    socket.on('render rooms',function(arreglorooms){
-    
-      for (const valor of arreglorooms) {
-        if (valor) {
-        select = document.getElementById('channel');
-        var opt = document.createElement('option');
-        opt.value = valor;
-        opt.innerHTML = valor;
-        select.appendChild(opt);
-        // socket.emit('agrega room',groupname);
-        // socket.on('change channel', function (channel) {
-        //   $("#message").html('').append($('<li>').text('Conectado al canal' + channel));
-        // })
+    for (const room of rooms) {
+       if  (!_rooms.includes(room) ) {
+         _rooms.push(room);
+         let opt = document.createElement('option');
+         opt.innerHTML = room;
+         select.appendChild(opt);
+       }
       }
-        
-      }
-  
+
     });
-    function newroom() { 
-      var groupname = document.querySelector('.groupname').value;
-      socket.emit('agrega room',groupname);
+    function newroom() {
+      // var groupname;
+      groupname = document.querySelector('.groupname').value;
+      // groupname.value = '';
+      if(groupname){
+        // select = document.getElementById('channel');
+        // var opt = document.createElement('option');
+        socket.emit('agrega room', groupname);
+      }
+   
     }
   </script>
-  
-<footer id="footer">
 
-  <select name="channel" id="channel"> 
-    <option value="lobby">Lobby</option>
-  </select>
-  CHATROOM</footer>
- 
-      <div id="controls">
-         
-          <div id="group">
-              <button id="newg" onclick="newroom()"> + Nuevo grupo 
-                <input id="groupname" class="groupname" type="text" placeholder="Escribir">
-              </button>
-              <button id="newc">+ Nuevo chat </button>
-            </div>
-            
-        <form action="">
-            <ul id="message"></ul>
-            <input type="text" id="msj" placeholder="Escribir..">
-            <input type="submit" value="Enviar">
-        </form>
-        
-      </div>
+  <footer id="footer">
+
+    <select name="channel" id="channel">
+      <option value="lobby">Lobby</option>
+    </select>
+    CHATROOM</footer>
+
+  <div id="controls">
+
+    <div id="group">
+      <button id="newg" onclick="newroom()"> + Nuevo grupo
+        <input id="groupname" class="groupname" type="text" placeholder="Escribir">
+      </button>
+      <button id="newc">+ Nuevo chat </button>
     </div>
+
+    <form action="">
+      <ul id="message"></ul>
+      <input type="text" id="msj" placeholder="Escribir..">
+      <input type="submit" value="Enviar">
+    </form>
+
+  </div>
+  </div>
 
   </div>
 

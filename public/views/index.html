@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +9,43 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-   
+
 </head>
+
 <body>
-        <script>
-           
-           function gotochatroom(){
-            var username=document.querySelector('.username').value;
-            window.location=`${window.location.href}chatroom/${username}`;
-           }
-        </script>
-<div class="interface">
-    <div id="left">
-        <input id="username" class="username" type="text" placeholder="username">
-        <button id="joinBtn" onclick="gotochatroom()">Connect</button>
+    <script>
+        var socket = io();
+        var _users = [];
+        function gotochatroom() {
+            var username = document.querySelector('.username').value;
+            window.location = `${window.location.href}chatroom/${username}`;
+            socket.emit('usernameregister')
+        }
+        socket.on('usernameregister', function (arreglonames) {
+            for (const username of arreglonames) {
+                if (!_users.includes(username)) {
+                    _users.push(username);
+                    socket.name = username;
+                    socket.broadcast.emit('message', socket.name + ' se ha conectado', '');
+                } else {
+                    let warning = document.getElementById('warning');
+                    warning.innerHTML = name + " ya se encuentra registrado"
+                }
+            }
+
+        });
+    </script>
+    <div class="interface">
+        <div id="left">
+            <h1 id="title">Inicio Sesion</h1>
+            <input id="username" class="username" type="text" placeholder="username">
+            <button id="joinBtn" onclick="gotochatroom()">Connect</button>
+            <h5 id="warning"></h5>
+        </div>
+
+
     </div>
-    <div id="rigth" style="width: 100%;">
-           
-    </div>
-       
-</div>
-   
+
 </body>
+
 </html>

@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const users =  [];
+var users =  [];
 var nombrerooms=[];
 var username;
 app.use(express.static('public'));
@@ -14,15 +14,19 @@ app.get('/', function(req, res){
   });
 });
 app.get('/chatroom/:username', function(req, res){
-  username = req.params.username;
+  // username = req.params.username;
   res.sendFile(`${__dirname}/public/views/chatroom.html`, (e) => {
       //res.send(JSON.stringify(e));
   });
 });
 
 io.on('connection', function(socket){
-  socket.name=username;
-  socket.broadcast.emit('message',socket.name+' se ha conectado','');
+  socket.on('usernameregister',function(username){
+    users.push(username);
+    io.emit('repeatname',users);
+  })
+  
+
   var channel='Lobby';
   socket.join(channel);
   socket.on('message',function(msj){

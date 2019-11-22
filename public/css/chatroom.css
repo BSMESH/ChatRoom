@@ -116,12 +116,19 @@
     }
     #message li:nth-child(odd) { background: #eee; width:53%; }
     footer{
+      display: flex;
       height: 5vh;
       background-color: #009688;
       text-align: center;
+      justify-content: space-between;
+      align-items: flex-end;
+
       color: #eee;
       padding: 10px;
       font-weight:bold;
       font-size: 15pt;
       
+    }
+    #usuarios{
+      transition: all 0.5s ease;
     }

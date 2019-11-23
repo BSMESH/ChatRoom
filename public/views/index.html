@@ -15,29 +15,23 @@
 <body>
     <script>
         var socket = io();
-        // var names=[];
         function gotochatroom() {
             var username = document.querySelector('.username').value;
             socket.emit('recibename', username);
             socket.on('recibearreglo', function (estado) {
-                console.log(estado+"<--");
-                
+                console.log(estado+"<--");   
                 if (estado) {
                     // arreglo.push(username);
                     window.location = `${window.location.href}chatroom/${username}`;
-                    socket.emit('entranombre', username);
+                    // socket.emit('entranombre', username);
                     console.log("entra acá"+username);
                    
                 } else {
                     console.log("ya lo incluye");
-
+                    document.getElementById("warning").innerHTML="Nombre ya registrado";
 
                 }
             });
-
-
-
-
         }
 
 

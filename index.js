@@ -5,7 +5,7 @@ const io = require('socket.io')(http);
 
 var users =  [];
 var nombrerooms=[];
-// var username;
+var username;
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
@@ -21,7 +21,8 @@ app.get('/chatroom/:username', function(req, res){
 });
 
 io.on('connection', function(socket){
-
+  socket.name=username;
+  socket.broadcast.emit('message',socket.name+' se ha conectado','');
   socket.on('recibename',function (name) {
     if (!users.includes(name)){
       users.push(name);
@@ -31,14 +32,6 @@ io.on('connection', function(socket){
     }
  
   })
-
-  socket.on('entranombre',function(name){
-    socket.name=name;
-    console.log("Entra aca hijo");
-    socket.broadcast.emit('message',socket.name+' se ha conectado','');
-    console.log("conectado: %s",socket.name);
-  });
-
   var channel='Lobby';
   socket.join(channel);
   socket.on('message',function(msj){
@@ -52,8 +45,15 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect',function(e){
-    socket.broadcast.emit('message',socket.name+' se ha desconectado','');
-    console.log("desconectado: %s",socket.name);
+    console.log("gola"+socket.name);
+    if(socket.name==undefined){
+      socket.broadcast.emit("nadie");
+    }
+    // if(socket.name!=undefined || !users.includes(socket.name)){
+    //   socket.broadcast.emit('message',socket.name+' se ha desconectado','');
+    //   console.log("desconectado: %s",socket.name);
+    // }
+ 
   });
 
   socket.on('change channel',function(newChannel){

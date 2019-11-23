@@ -5,7 +5,7 @@ const io = require('socket.io')(http);
 
 var users =  [];
 var nombrerooms=[];
-var username;
+// var username;
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
@@ -23,7 +23,7 @@ app.get('/chatroom/:username', function(req, res){
 io.on('connection', function(socket){
   socket.on('usernameregister',function(username){
     users.push(username);
-    io.emit('repeatname',users);
+    socket.emit('repeatname',users);
   })
   
 

@@ -14,18 +14,18 @@ app.get('/', function(req, res){
   });
 });
 app.get('/chatroom/:username', function(req, res){
-  // username = req.params.username;
+  username = req.params.username;
   res.sendFile(`${__dirname}/public/views/chatroom.html`, (e) => {
       //res.send(JSON.stringify(e));
   });
 });
 
 io.on('connection', function(socket){
-  socket.on('usernameregister',function(username){
-    users.push(username);
-    socket.emit('repeatname',users);
-  })
-  
+
+  socket.on('connection',function(e){
+    socket.broadcast.emit('message',socket.name+' se ha conectado','');
+    console.log("conectado: %s",socket.name);
+  });
 
   var channel='Lobby';
   socket.join(channel);

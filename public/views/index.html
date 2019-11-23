@@ -15,40 +15,12 @@
 <body>
     <script>
         var socket = io();
-        var _users = [];
         function gotochatroom() {
             var username = document.querySelector('.username').value;
-            console.log(username);
-            socket.emit('usernameregister', username);
+            socket.emit('connection',username);
+            window.location = `${window.location.href}chatroom/${username}`;
         }
-        socket.on('repeatname', function (arreglonames) {
 
-            for (const iterator of arreglonames) {
-                if (!_users.includes(iterator)) {
-                    // window.location = `${window.location.href}chatroom/${username}`;
-                    _users.push(iterator);
-                    socket.name = iterator;
-                    //socket.broadcast.emit('message', socket.name + ' se ha conectado', '');
-                    console.log(iterator);
-                    
-                }
-
-            }
-            // for (const username of arreglonames) {
-            //     if (!_users.includes(username)) {
-            //         window.location = `${window.location.href}chatroom/${username}`;
-            //         _users.push(username);
-            //         socket.name = username;
-            //         socket.broadcast.emit('message', socket.name + ' se ha conectado', '');
-
-            //     } else {
-            //         alert("ya se encuentra registrado");
-            //         // let warning = document.getElementById('warning');
-            //         // warning.innerHTML = name + " ya se encuentra registrado";
-            //     }
-            // }
-
-        });
     </script>
     <div class="interface">
         <div id="left">

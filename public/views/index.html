@@ -15,11 +15,31 @@
 <body>
     <script>
         var socket = io();
+        // var names=[];
         function gotochatroom() {
             var username = document.querySelector('.username').value;
-            socket.emit('connection',username);
-            window.location = `${window.location.href}chatroom/${username}`;
+            socket.emit('recibename', username);
+            socket.on('recibearreglo', function (estado) {
+                console.log(estado+"<--");
+                
+                if (estado) {
+                    // arreglo.push(username);
+                    window.location = `${window.location.href}chatroom/${username}`;
+                    socket.emit('entranombre', username);
+                    console.log("entra acá"+username);
+                   
+                } else {
+                    console.log("ya lo incluye");
+
+
+                }
+            });
+
+
+
+
         }
+
 
     </script>
     <div class="interface">

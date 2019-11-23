@@ -22,7 +22,19 @@ app.get('/chatroom/:username', function(req, res){
 
 io.on('connection', function(socket){
 
-  socket.on('connection',function(e){
+  socket.on('recibename',function (name) {
+    if (!users.includes(name)){
+      users.push(name);
+      socket.emit('recibearreglo',true);
+    }else{
+      socket.emit('recibearreglo',false);
+    }
+ 
+  })
+
+  socket.on('entranombre',function(name){
+    socket.name=name;
+    console.log("Entra aca hijo");
     socket.broadcast.emit('message',socket.name+' se ha conectado','');
     console.log("conectado: %s",socket.name);
   });

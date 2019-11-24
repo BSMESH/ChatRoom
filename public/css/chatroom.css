@@ -1,134 +1,299 @@
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-size: 12pt;
-    
-    }
-    body {
-    font: 13px Helvetica, Arial; 
-    background-color: aqua;
-    
-        }
-    form { 
-    padding: 5px; 
-    position: fixed; 
-    bottom: 0; 
-    width: 100%; 
-    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 12pt;
+}
 
-    }
-    form input {
-    border: 0; 
-    padding: 10px; 
-    width: 90%; 
-    margin-right: .5%; 
-    }
-    form button { 
-    width: 9%; 
-    background: rgb(130, 224, 255); 
-    border: none; 
-    padding: 10px; 
-    }
-    #app{
-        width: 100vw;
-        height: 100vh;
-      
-    }
-    .group{
-        margin-left: 100%;
-        border-top: 0px;
-        background-color: #DCF866;
-        width: 56%;
-        height: 100%;
-        position: relative;
-        display: inline-block;
-    }
- 
-  
-    .dropbtn, #newc{
-        width: 50%;
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .dropbtn:hover, .dropbtn:focus {
-        background-color: rgb(23, 105, 26);
-      }
-    .group-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        overflow: auto;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-      }
-      .group-content  a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
-      .group a:hover {background-color: #ddd;}
-      .show {display: block;}
-    input[type=text]{
-       width: 54%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-      }
-      input[type=submit] {
-        width: 10%;
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-    #controls{
-        background-color:#e5dde5;
-        width: 65%;
-        height: 100vh;
- 
-    }
+body {
+  font: 13px Helvetica, Arial;
+  background-color: none;
+}
 
-    #message { 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 5px; 
-    overflow: hidden;
-    
-    }
-    #message li { 
-        align-content: flex-start;
-    padding: 5px 10px; 
-    font-size: 12pt;
+.app {
+  display: flex;
+  flex-flow: row;
+  background-color: teal;
+  width: 100vw;
+  height: 94vh;
+}
 
-    }
-    #message li:nth-child(odd) { background: #eee; width:53%; }
-    footer{
+#controls form {
+  height: 95%;
+  padding: 5px;
+  justify-content: center;
+  overflow: auto;
+}
+
+.group {
+  border-top: 0px;
+  background-color:#aed4d0;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 30px;
+}
+
+#buttons {
+  display: flex;
+  flex-flow: row;
+  padding: 10px;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#groupname {
+  display: none;
+  position: relative;
+  width: 100%;
+}
+
+.dropbtn,
+#newc {
+  width: 40%;
+  justify-content: space-between;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#newc {
+  overflow: auto;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: rgb(23, 105, 26);
+}
+
+.group-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.group-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.group a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+
+input[type=text] {
+  position: fixed;
+  bottom: 0;
+  width: 48%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+input[type=submit] {
+  position: fixed;
+  right: 41%;
+  width: 10%;
+  bottom: 0;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.app #controls {
+  display: flex;
+  flex-flow: column;
+  background-color: #e5dde5;
+  width: 60%;
+  height: 100%;
+}
+
+#message {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+  overflow: hidden;
+}
+
+#message li {
+  align-content: flex-start;
+  padding: 5px 10px;
+  font-size: 12pt;
+}
+
+#message li:nth-child(odd) {
+  background: #eee;
+  width: 53%;
+}
+
+footer {
+  display: flex;
+  height: 5%;
+  width: 100%;
+  background-color: #009688;
+  text-align: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: #eee;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 15pt;
+}
+
+#usuarios {
+  transition: all 0.5s ease;
+}
+
+#users {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  padding: 5%;
+  overflow: auto;
+  color: gray;
+  text-align: center;
+  border-radius: 30px solid green;
+}
+
+#usersgroup {
+  overflow: auto;
+  display: none;
+  width: 100%;
+  background-color: gray;
+}
+
+#checkbtn {
+  display: none;
+  position: relative;
+  width: 100%;
+  background-color: rgb(23, 105, 26);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+@media (max-width: 375px) {
+  .app {
       display: flex;
-      height: 5vh;
-      background-color: #009688;
+      flex-flow: column;
+      background-color: teal;
+      width: 100vw;
+      height: 94vh;
+  }
+  .group {
+      -webkit-order: 1;
+      border-top: 0px;
+      height: 40%;
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      padding: 5px;
+  }
+  .app #controls {
+      -webkit-order: 2;
+      display: flex;
+      flex-flow: column;
+      background-color: #e5dde5;
+      width: 100%;
+      height: 100%;
+  }
+  #buttons {
+      overflow: auto;
+      display: flex;
+      flex-flow: row;
+      width: 100%;
+      height: 100%;
+      justify-content: space-around;
+      align-items: center;
+  }
+  #users {
+      background-color: white;
+      overflow: auto;
+      color: gray;
       text-align: center;
+      border-radius: 30px solid green;
+  }
+  input[type=text] {
+      position: fixed;
+      bottom: 0;
+      width: 70%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+  }
+  input[type=submit] {
+      position: fixed;
+      right: 2%;
+      width: 25%;
+      bottom: 0;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  #message li:nth-child(odd) {
+      background: #eee;
+      width: 100%;
+  }
+  .dropbtn,
+  #newc {
+      width: 50%;
       justify-content: space-between;
-      align-items: flex-end;
-
-      color: #eee;
-      padding: 10px;
-      font-weight:bold;
-      font-size: 15pt;
-      
-    }
-    #usuarios{
-      transition: all 0.5s ease;
-    }
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  #newc {
+      overflow: auto;
+  }
+  #users {
+      display: none;
+  }
+  #checkbtn {
+      display: none;
+      position: relative;
+      width: 100%;
+      background-color: rgb(23, 105, 26);
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+  }
+}

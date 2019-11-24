@@ -35,6 +35,7 @@ io.on('connection', function (socket) {
   socket.on('recibename', function (name) {
     if (!users.includes(name)) {
       nombre=name;
+      users.push(name);
       socket.emit('recibearreglo', true);
 
     } else {
@@ -47,7 +48,8 @@ io.on('connection', function (socket) {
   socket.on('message', function (msj) {
     //io.emit('message',msj,socket.name);
     if (status == 'private') {
-      socket.broadcast.to(socket.id).emit('message', msj,socket.name);
+      // socket.broadcast.to(socket.id).emit('message', msj,socket.name);
+      socket.emit('message',msj,socket.name);
       socket.broadcast.to(idchat).emit('message', msj,socket.name);
     } else {
       console.log("No es privado");

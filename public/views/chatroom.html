@@ -25,10 +25,9 @@
         return false;
       });
 
-      $("#channels").change(function () {
-        socket.emit('change channel', $("#channels").val());
-
-        document.getElementById('title').innerHTML = $("#channels").val();
+      $("#channel").change(function () {
+        socket.emit('change channel', $("#channel").val());
+        document.getElementById('title').innerHTML = $("#channel").val();
         // document.getElementById('title').innerHTML=("channels").val();
       });
 
@@ -40,7 +39,7 @@
     });
 
     socket.on('render rooms', function (rooms) {
-      let select = document.getElementById('channels');
+      let select = document.getElementById('channel');
       for (const room of rooms) {
         if (!_rooms.includes(room)) {
           _rooms.push(room);
@@ -51,6 +50,16 @@
       }
 
     });
+    function showinput() {
+      let name = document.querySelector("#groupname");
+      name.style.display = "flex";
+      let usuariosgrupo = document.querySelector("#usersgroup");
+      usuariosgrupo.style.display = "block";
+      let checkbutton = document.querySelector("#checkbtn");
+      checkbutton.style.display = "block";
+    }
+
+
     function newroom() {
       groupname = document.querySelector('.groupname').value;
       if (groupname) {
@@ -59,39 +68,46 @@
     }
   </script>
 
-  <footer id="footer">
-
-    <select name="channels" id="channels">
-      <option value="lobby">lobby</option>
-    </select>
+</script>
+<footer id="footer">
+    <select name="channel" id="channel">
+    <option value="lobby">Lobby</option>
+  </select>
     <h1 id="title">lobby</h1>
     <h1>Username</h1>
-  </footer>
+</footer>
 
-  <div id="controls">
-    <form action="">
-      <ul id="message"></ul>
-      <input type="text" id="msj" placeholder="Escribir..">
-      <input type="submit" value="Enviar">
-    </form>
-    <div class="group">
-      <button onclick="Userlist()" class="dropbtn">+ Nuevo chat</button>
-      <div id="myDropdown" class="group-content">
+<div class="app">
+    <div id="controls">
+        <form action="">
+            <ul id="message"></ul>
+            <input type="text" id="msj" placeholder="Escribir..">
+            <input type="submit" value="Enviar">
+        </form>
 
-      </div>
-      <button id="newc" onclick="newroom()" class="dropchat">+ Nuevo grupo
-        <input id="groupname" class="groupname" type="text" placeholder="Escribir">
-      </button>
     </div>
-  </div>
+    <div class="group">
+        <div id="buttons">
+            <button onclick="Userlist()" class="dropbtn">+ Nuevo chat</button>
+            <div id="myDropdown" class="group-content">
+            </div>
+            <button id="newc" onclick="showinput()" class="dropchat">+ Nuevo grupo 
+            <input id="groupname" class="groupname" type="text" placeholder="Escribir">
+            <div id="usersgroup">
+                <input type="checkbox" name="" value=""> Usuario 1 <br>
+                <input type="checkbox" name="" value=""> Usuario 2 <br>
+                <input type="checkbox" name="" value=""> Usuario 3 <br>
+            </div>
+            <h1 id="checkbtn" onclick="newroom()">Ok</h1>
+            </button>
+        </div>
 
-  </div>
-  </div>
-  </div>
+        <div id="users">
+            <h1>USUARIOS CONECTADOS</h1>
+        </div>
+    </div>
 
-  </div>
-
-  </div>
+</div>
   <!-- Lista de chats -->
   <script>
     _nameusers = [];
@@ -124,18 +140,18 @@
       document.getElementById("myDropdown").classList.toggle("show");
       socket.emit('agrega name', name);
     }
-    window.onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }
+    // window.onclick = function (event) {
+    //   if (!event.target.matches('.dropbtn')) {
+    //     var dropdowns = document.getElementsByClassName("dropdown-content");
+    //     var i;
+    //     for (i = 0; i < dropdowns.length; i++) {
+    //       var openDropdown = dropdowns[i];
+    //       if (openDropdown.classList.contains('show')) {
+    //         openDropdown.classList.remove('show');
+    //       }
+    //     }
+    //   }
+    // }
   </script>
 
 

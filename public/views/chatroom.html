@@ -25,96 +25,119 @@
         return false;
       });
 
-      $("#channel").change(function(){
-        socket.emit('change channel',$("#channel").val());
+      $("#channels").change(function () {
+        socket.emit('change channel', $("#channels").val());
+
+        document.getElementById('title').innerHTML = $("#channels").val();
+        // document.getElementById('title').innerHTML=("channels").val();
       });
-    });
-    
 
-    socket.on('message', function(msg,id){
-      $("#message").append($('<li>').text(id+': '+msg));
     });
 
-    // socket.on('agrega room', function(nroom){
-    //   $("#groupname").append($('<li>').text(id+': '+msg));
-    // });
 
-    socket.on('render rooms',function(rooms){
+    socket.on('message', function (msg, id) {
+      $("#message").append($('<li>').text(id + ': ' + msg));
+    });
+
+    socket.on('render rooms', function (rooms) {
       let select = document.getElementById('channels');
       for (const room of rooms) {
-       if  (!_rooms.includes(room) ) {
-         _rooms.push(room);
-         let opt = document.createElement('option');
-         opt.innerHTML = room;
-         select.appendChild(opt);
-       }
+        if (!_rooms.includes(room)) {
+          _rooms.push(room);
+          let opt = document.createElement('option');
+          opt.innerHTML = room;
+          select.appendChild(opt);
+        }
       }
-  
+
     });
-    function newroom() { 
-      // var groupname;
+    function newroom() {
       groupname = document.querySelector('.groupname').value;
-      // groupname.value = '';
-      if(groupname){
-        // select = document.getElementById('channel');
-        // var opt = document.createElement('option');
+      if (groupname) {
         socket.emit('agrega room', groupname);
       }
     }
   </script>
-  
-<footer id="footer">
 
-  <select name="channels" id="channels"> 
-    <option value="lobby">Lobby</option>
-  </select>
-  <h1>CHATROOM</h1>
-  <h1>Username</h1>
+  <footer id="footer">
+
+    <select name="channels" id="channels">
+      <option value="lobby">lobby</option>
+    </select>
+    <h1 id="title">lobby</h1>
+    <h1>Username</h1>
   </footer>
- 
-      <div id="controls">
-          <form action="">
-              <ul id="message"></ul>
-              <input type="text" id="msj" placeholder="Escribir..">
-              <input type="submit" value="Enviar">
-          </form>
-          <div class="group">
-              <button onclick="Userlist()" class="dropbtn">+ Nuevo chat</button>
-              <div id="myDropdown" class="group-content">
-                <a id="usuarios" href="#channel">Usuario de la lista</a>
-              </div>
-              <button id="newc" onclick="newroom()" class="dropchat">+ Nuevo grupo 
-                  <input id="groupname" class="groupname" type="text" placeholder="Escribir">
-              </button>
-                </div>
-            </div>
-          
+
+  <div id="controls">
+    <form action="">
+      <ul id="message"></ul>
+      <input type="text" id="msj" placeholder="Escribir..">
+      <input type="submit" value="Enviar">
+    </form>
+    <div class="group">
+      <button onclick="Userlist()" class="dropbtn">+ Nuevo chat</button>
+      <div id="myDropdown" class="group-content">
+
       </div>
-      </div>
+      <button id="newc" onclick="newroom()" class="dropchat">+ Nuevo grupo
+        <input id="groupname" class="groupname" type="text" placeholder="Escribir">
+      </button>
     </div>
+  </div>
+
+  </div>
+  </div>
+  </div>
 
   </div>
 
-      </div>
-      <!-- Lista de chats -->
-      <script>
-      function Userlist() {
-        document.getElementById("myDropdown").classList.toggle("show");
+  </div>
+  <!-- Lista de chats -->
+  <script>
+    _nameusers = [];
+    drop = document.getElementById('myDropdown');
+    socket.on('actualizanames', function (arreglo) {
+      for (const iterator of arreglo) {
+        if (!_nameusers.includes(iterator.name)) {
+          _nameusers.push(iterator.name);
+          let a = document.createElement('a');
+          a.innerHTML = iterator.name;
+          a.id = iterator.id;
+          a.onclick = function () {
+            privatemessage(iterator.id, iterator.name);
+          };
+          drop.append(a);
+        }
       }
-      window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-              openDropdown.classList.remove('show');
-            }
+      console.log(_nameusers);
+
+
+    });
+    function privatemessage(id, name) {
+      console.log("mensaje privado para" + name);
+      console.log("con un id de" + id);
+      document.getElementById('title').innerHTML = name;
+      socket.emit('privatemessage', id);
+    }
+
+    function Userlist() {
+      document.getElementById("myDropdown").classList.toggle("show");
+      socket.emit('agrega name', name);
+    }
+    window.onclick = function (event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
           }
         }
       }
-      </script>
-      
+    }
+  </script>
+
 
 </body>
 

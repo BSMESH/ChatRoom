@@ -3,68 +3,92 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-var users =  [];
-var nombrerooms=[];
+class client {
+  constructor (name, id) {
+    this.name = name;
+    this.id = id;
+  }
+}
+var users = [];
+var nombrerooms = [];
 var username;
+var status;
+var idchat;
 app.use(express.static('public'));
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.sendFile(`${__dirname}/public/views/index.html`, (e) => {
-      //res.send(JSON.stringify(e));
+    //res.send(JSON.stringify(e));
   });
 });
-app.get('/chatroom/:username', function(req, res){
+app.get('/chatroom/:username', function (req, res) {
   username = req.params.username;
   res.sendFile(`${__dirname}/public/views/chatroom.html`, (e) => {
-      //res.send(JSON.stringify(e));
+    //res.send(JSON.stringify(e));
   });
 });
 
-io.on('connection', function(socket){
-  socket.name=username;
-  socket.broadcast.emit('message',socket.name+' se ha conectado','');
-  socket.on('recibename',function (name) {
-    if (!users.includes(name)){
-      users.push(name);
-      socket.emit('recibearreglo',true);
-    }else{
-      socket.emit('recibearreglo',false);
+io.on('connection', function (socket) {
+  socket.name = username;
+  // socket.id=idchat;
+  socket.broadcast.emit('message', socket.name + ' se ha conectado', '');
+  socket.on('recibename', function (name) {
+    if (!users.includes(name)) {
+      nombre=name;
+      socket.emit('recibearreglo', true);
+
+    } else {
+      socket.emit('recibearreglo', false);
     }
- 
+
   })
-  var channel='Lobby';
+  var channel = 'lobby';
   socket.join(channel);
-  socket.on('message',function(msj){
-    // io.emit('message',msj,socket.name);
-    io.sockets.in(channel).emit('message',msj,socket.name);
+  socket.on('message', function (msj) {
+    //io.emit('message',msj,socket.name);
+    if (status == 'private') {
+      socket.broadcast.to(socket.id).emit('message', msj,socket.name);
+      socket.broadcast.to(idchat).emit('message', msj,socket.name);
+    } else {
+      console.log("No es privado");
+      io.sockets.in(channel).emit('message', msj, socket.name);
+    }
+    
+
   });
 
-  socket.on('agrega room',function(nombreroom){
+  socket.on('privatemessage', function (id) {
+    status='private';
+    idchat=id;
+  });
+
+  socket.on('agrega name', function (nameuser) {
+    const Client = new client (username, socket.id);
+    users.push(Client);
+    console.log("Este nombre ha sido ingresado: " + nameuser);
+    io.emit('actualizanames', users);
+  })
+  socket.on('agrega room', function (nombreroom) {
     nombrerooms.push(nombreroom);
-    io.emit('render rooms',nombrerooms);
+    io.emit('render rooms', nombrerooms);
   });
 
-  socket.on('disconnect',function(e){
-    console.log("gola"+socket.name);
-    if(socket.name==undefined){
+  socket.on('disconnect', function (e) {
+    if (socket.name == undefined) {
       socket.broadcast.emit("nadie");
     }
-    // if(socket.name!=undefined || !users.includes(socket.name)){
-    //   socket.broadcast.emit('message',socket.name+' se ha desconectado','');
-    //   console.log("desconectado: %s",socket.name);
-    // }
- 
   });
 
-  socket.on('change channel',function(newChannel){
+  socket.on('change channel', function (newChannel) {
     socket.leave(channel);
     socket.join(newChannel);
-    channel= newChannel;
-    socket.emit('change channel',newChannel);
+    channel = newChannel;
+    status='public';
+    socket.emit('change channel', newChannel);
   })
 });
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 
-http.listen(3000, function(){
+http.listen(3000, function () {
   console.log('listening on *:3000');
 });

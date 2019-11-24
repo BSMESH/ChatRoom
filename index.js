@@ -32,6 +32,7 @@ io.on('connection', function (socket) {
   socket.name = username;
   // socket.id=idchat;
   socket.broadcast.emit('message', socket.name + ' se ha conectado', '');
+  io.sockets.emit('connectedlist',socket.name);
   socket.on('recibename', function (name) {
     if (!users.includes(name)) {
       nombre=name;

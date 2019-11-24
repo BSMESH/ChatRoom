@@ -110,6 +110,12 @@
 </div>
   <!-- Lista de chats -->
   <script>
+    let users =document.getElementById('users');
+    socket.on('connectedlist',function(name){
+      let h1= document.createElement('h1');
+      h1.innerHTML=name;
+      users.append(h1);
+    });
     _nameusers = [];
     drop = document.getElementById('myDropdown');
     socket.on('actualizanames', function (arreglo) {
